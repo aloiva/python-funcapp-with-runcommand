@@ -35,7 +35,11 @@ def httptrigger(req: func.HttpRequest) -> func.HttpResponse:
         res += f"Local time after tzset: {datetime.datetime.now()}\n"
         return func.HttpResponse(res)
 
-    return func.HttpResponse(f"This HTTP triggered function executed successfully at {datetime.datetime.now()}. Timezone: {datetime.datetime.now().astimezone().tzinfo}.")
+    usedatetime = req.params.get('usedatetime')
+    if usedatetime == 'true':
+        return func.HttpResponse(f"This HTTP triggered function executed successfully at {datetime.datetime.now()}. Timezone: {datetime.datetime.now().astimezone().tzinfo}.")
+
+    return func.HttpResponse(f"This HTTP triggered function executed successfully at {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}. Timezone: {time.tzname[0]}.")
 
 
 @app.timer_trigger(schedule=os.getenv("TIMER_SCHEDULE") or "0 */1 * * * *", arg_name="mytimer", run_on_startup=False,
