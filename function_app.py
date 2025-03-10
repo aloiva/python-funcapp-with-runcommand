@@ -38,7 +38,7 @@ def httptrigger(req: func.HttpRequest) -> func.HttpResponse:
     return func.HttpResponse(f"This HTTP triggered function executed successfully at {datetime.datetime.now()}. Timezone: {datetime.datetime.now().astimezone().tzinfo}.")
 
 
-@app.timer_trigger(schedule=os.getenv("TIMER_SCHEDULE") or "*/10 * 14 * * *", arg_name="mytimer", run_on_startup=False,
+@app.timer_trigger(schedule=os.getenv("TIMER_SCHEDULE") or "0 */1 * * * *", arg_name="mytimer", run_on_startup=False,
               use_monitor=False) 
 def timer_trigger(mytimer: func.TimerRequest) -> None:
     if mytimer.past_due:
